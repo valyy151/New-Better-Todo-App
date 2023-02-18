@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			http-equiv="X-UA-Compatible"
+			content="IE=edge"
+		/>
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>Document</title>
+		<link
+			rel="stylesheet"
+			href="/css/style.css"
+		/>
+		<script
+			src="/js/app.js"
+			defer
+		></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"
+			defer
+		></script>
+	</head>
+
+	<body>
+		<header class="header">
+			<nav class="navbar">
+				<a href="/">Todo App</a>
+				<div class="navbar-links">
+					<% if(user){ %>
+					<span>Welcome, <%= user.username %></span>
+					<a href="/">Home</a>
+					<a href="/about">About</a>
+					<a href="/support">Support</a>
+					<a href="/logout">Logout</a>
+					<% } else {%>
+					<a href="/">Home</a>
+					<a href="/about">About</a>
+					<a href="/support">Support</a>
+					<a href="/login">Login</a>
+					<% } %>
+				</div>
+			</nav>
+		</header>
+
+		<%- body %>
+	</body>
+</html>

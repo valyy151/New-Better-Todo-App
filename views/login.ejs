@@ -1,0 +1,63 @@
+<section class="loginSection">
+	<h1>Login</h1>
+	<form
+		action="/login"
+		method="POST"
+	>
+		<div>
+			<div class="user-error"></div>
+			<input
+				type="text"
+				name="username"
+				id=""
+				placeholder="Username"
+			/>
+			<br />
+			<label for="username">Your Username</label>
+		</div>
+		<div>
+			<div class="pass-error"></div>
+			<input
+				type="password"
+				name="password"
+				placeholder="Password"
+			/>
+			<br />
+			<label for="password">Your password</label>
+		</div>
+		<button type="submit">Login</button>
+	</form>
+	<a href="/register">Sign Up</a>
+</section>
+
+<script>
+	const form = document.querySelector('form');
+	const userError = document.querySelector('.user-error');
+	const passError = document.querySelector('.pass-error');
+
+	form.addEventListener('submit', async (e) => {
+		e.preventDefault();
+		userError.textContent = '';
+		passError.textContent = '';
+		const username = form.username.value;
+		const password = form.password.value;
+		try {
+			const res = await fetch('/login', {
+				method: 'POST',
+				body: JSON.stringify({ username, password }),
+				headers: { 'Content-Type': 'application/json' },
+			});
+			const data = await res.json();
+
+			if (data.errors) {
+				userError.textContent = data.errors.username;
+				passError.textContent = data.errors.password;
+			}
+			if (data.user) {
+				return location.assign('/');
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	});
+</script>

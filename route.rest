@@ -1,0 +1,7 @@
+GET http://localhost:3000/submit
+Content-Type: application/json
+
+{
+  "message": "I find this app problematic",
+  "date": "02.09.2023"
+}

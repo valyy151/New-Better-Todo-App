@@ -1,0 +1,107 @@
+<div class="after-header">
+  <h2>your tasks for today:</h2>
+</div>
+<section class="todo-list">
+  <ul id="ongoingTasks"></ul>
+</section>
+<div id="addButton">
+  <a href="#" id="aButton" type="submit">Add Task</a>
+    <input type="text" name="text">
+  </form>
+</div>
+<div class="after-section">
+  <h2>completed tasks:</h2>
+</div>
+<section class="done-tasks">
+  <a href="#" id="clear">&times;</a>
+  <ul id="doneTasks"></ul>
+</section>
+
+<script>
+  const checkButtons = document.getElementsByClassName('check');
+  const removeButtons = document.getElementsByClassName('remove');
+
+  const ongoingTasks = document.getElementById('ongoingTasks');
+  const doneTasks = document.getElementById('doneTasks');
+
+  function addClickToButtons() {
+    for (check of checkButtons) {
+      check.addEventListener('click', function (event) {
+        const checked = event.target.parentElement;
+        checked.className = 'finished';
+        doneTasks.prepend(checked);
+        countChildren();
+      });
+    }
+    for (remove of removeButtons) {
+      remove.addEventListener('click', function (event) {
+        const checked = event.target.parentElement;
+        checked.remove();
+        countChildren();
+      });
+    }
+  }
+ 
+  addClickToButtons();
+
+  const addButton = document.getElementById('aButton');
+  const textInput = document.querySelector('input');
+
+  function createTask() {
+    const returnedValue = textInput.value;
+
+    const newCheckButton = document.createElement('a');
+    newCheckButton.innerHTML = '&#10003;';
+    newCheckButton.classList.add('check');
+
+    const newRemoveButton = document.createElement('a');
+    newRemoveButton.innerHTML = '&times;';
+    newRemoveButton.classList.add('remove');
+
+    const newText = document.createElement('p');
+    newText.innerText = returnedValue;
+
+    const newTask = document.createElement('li');
+    newTask.classList.add('ongoing');
+
+    newTask.prepend(newCheckButton, newText, newRemoveButton);
+    ongoingTasks.prepend(newTask);
+    console.dir(newTask.childNodes[1].innerText);
+
+    textInput.value = '';
+    addClickToButtons()
+  }
+
+  addButton.addEventListener('click', () => {
+    textInput.style.display = 'flex';
+    if (textInput.style.display == 'flex' && textInput.value !== '') {
+      createTask();
+      countChildren();
+    }
+  });
+
+  textInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' && textInput.value !== '') {
+      createTask();
+      countChildren();
+    }
+  });
+
+  const clear = document.getElementById('clear');
+
+  clear.addEventListener('click', () => {
+    while (doneTasks.firstChild) {
+      doneTasks.removeChild(doneTasks.lastChild);
+      countChildren();
+    }
+  });
+
+  function countChildren() {
+    if (doneTasks.childElementCount > 0) {
+      clear.style.display = 'flex';
+    } else clear.style.display = 'none';
+  }
+
+  countChildren();
+
+</script>
